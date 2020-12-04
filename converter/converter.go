@@ -91,12 +91,15 @@ func convertXMLFile(xmlFilePath string, csvFilePath string) {
 		// @TODO send message to chan
 		fmt.Println(err)
 	}
+	defer xmlFile.Close()
 
 	csvFile, err := os.Create(csvFilePath)
 	if err != nil {
 		// @TODO send message to chan
 		fmt.Println(err)
 	}
+	defer csvFile.Close()
+
 	iterate(xmlFile, csvFile)
 }
 
