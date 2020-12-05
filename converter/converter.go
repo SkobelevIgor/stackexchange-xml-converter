@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 )
 
 type StatusMsg struct {
@@ -75,17 +76,21 @@ func Convert(sourcePath string, storeToDir string) (err error) {
 		storeToDir = sourcePathResolved
 	}
 
+	var wg sync.WaitGroup
 	for _, sf := range sourceFiles {
 		f := filepath.Base(sf)
 		fName := f[:len(f)-len(filepath.Ext(f))]
 		csvFileName := fName + ".csv"
-		convertXMLFile(fName, sf, filepath.Join(storeToDir, csvFileName))
+		go convertXMLFile(&wg, fName, sf, filepath.Join(storeToDir, csvFileName))
 	}
+
+	wg.Wait()
 
 	return
 }
 
-func convertXMLFile(typeName string, xmlFilePath string, csvFilePath string) {
+func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, csvFilePath string) {
+	wg.Add(1)
 	xmlFile, err := os.Open(xmlFilePath)
 	if err != nil {
 		// @TODO send message to chan
@@ -101,6 +106,7 @@ func convertXMLFile(typeName string, xmlFilePath string, csvFilePath string) {
 	defer csvFile.Close()
 
 	iterate(typeName, xmlFile, csvFile)
+	wg.Done()
 }
 
 func resolvePath(path string) (string, error) {
