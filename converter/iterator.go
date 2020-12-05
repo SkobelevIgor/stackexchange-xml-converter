@@ -9,7 +9,7 @@ import (
 	"github.com/SkobelevIgor/stackexchange-xml-to-csv/types"
 )
 
-const flushBatchOnSize = 10000
+const flushBatchOnSize = 500
 
 func iterate(typeName string, xmlFile *os.File, csvFile *os.File) {
 	xmlDecoder := xml.NewDecoder(xmlFile)
