@@ -77,15 +77,15 @@ func Convert(sourcePath string, storeToDir string) (err error) {
 
 	for _, sf := range sourceFiles {
 		f := filepath.Base(sf)
-		fN := f[:len(f)-len(filepath.Ext(f))]
-		csvFileName := fN + ".csv"
-		convertXMLFile(sf, filepath.Join(storeToDir, csvFileName))
+		fName := f[:len(f)-len(filepath.Ext(f))]
+		csvFileName := fName + ".csv"
+		convertXMLFile(fName, sf, filepath.Join(storeToDir, csvFileName))
 	}
 
 	return
 }
 
-func convertXMLFile(xmlFilePath string, csvFilePath string) {
+func convertXMLFile(typeName string, xmlFilePath string, csvFilePath string) {
 	xmlFile, err := os.Open(xmlFilePath)
 	if err != nil {
 		// @TODO send message to chan
@@ -100,7 +100,7 @@ func convertXMLFile(xmlFilePath string, csvFilePath string) {
 	}
 	defer csvFile.Close()
 
-	iterate(xmlFile, csvFile)
+	iterate(typeName, xmlFile, csvFile)
 }
 
 func resolvePath(path string) (string, error) {
