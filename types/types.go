@@ -8,7 +8,7 @@ type CSVEncoder interface {
 	GETCSVRow() []string
 }
 
-func CreateEntity(typeName string) (c CSVEncoder, err error) {
+func NewEncoder(typeName string) (c CSVEncoder, err error) {
 	switch typeName {
 	case "Badges":
 		c = &Badge{}

@@ -9,15 +9,11 @@ import (
 	"github.com/SkobelevIgor/stackexchange-xml-to-csv/types"
 )
 
-const flushBatchOnSize = 500
-
 func iterate(typeName string, xmlFile *os.File, csvFile *os.File) {
 	xmlDecoder := xml.NewDecoder(xmlFile)
 	csvWriter := csv.NewWriter(csvFile)
 
-	var batchSizeLimiter int
-
-	encoderType, err := types.CreateEntity(typeName)
+	encoderType, err := types.NewEncoder(typeName)
 	if err != nil {
 		// @TODO send to chan
 		return
@@ -38,32 +34,21 @@ func iterate(typeName string, xmlFile *os.File, csvFile *os.File) {
 		switch ty := t.(type) {
 		case xml.StartElement:
 			if ty.Name.Local == "row" {
-				encoderType, _ := types.CreateEntity(typeName)
+				encoder, _ := types.NewEncoder(typeName)
 
-				if err = xmlDecoder.DecodeElement(&encoderType, &ty); err != nil {
+				if err = xmlDecoder.DecodeElement(&encoder, &ty); err != nil {
 					log.Printf("File: %s. Error decoding item: %s",
 						xmlFile.Name(), err)
 					break
 				}
-				err = csvWriter.Write(encoderType.GETCSVRow())
-				batchSizeLimiter++
+				err = csvWriter.Write(encoder.GETCSVRow())
 			}
 		}
 
-		if batchSizeLimiter >= flushBatchOnSize {
-			csvWriter.Flush()
-			reportFlushError(csvWriter)
-			batchSizeLimiter = 0
-		}
 	}
 
 	csvWriter.Flush()
-	reportFlushError(csvWriter)
-}
-
-// @TODO write to status chan on error
-func reportFlushError(csvWriter *csv.Writer) {
-	err := csvWriter.Error()
+	err = csvWriter.Error()
 	if err != nil {
 		// @TODO write to chan
 	}
