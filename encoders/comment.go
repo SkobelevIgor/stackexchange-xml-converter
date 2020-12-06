@@ -1,4 +1,4 @@
-package types
+package encoders
 
 // Comment entity
 type Comment struct {

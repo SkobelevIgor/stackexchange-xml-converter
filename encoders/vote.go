@@ -1,4 +1,4 @@
-package types
+package encoders
 
 // Vote entity
 type Vote struct {

@@ -1,4 +1,4 @@
-package types
+package encoders
 
 // Post entity
 type Post struct {

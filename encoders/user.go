@@ -1,4 +1,4 @@
-package types
+package encoders
 
 // User entity
 type User struct {

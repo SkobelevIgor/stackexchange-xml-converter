@@ -1,4 +1,4 @@
-package types
+package encoders
 
 // Badge entity
 type Badge struct {

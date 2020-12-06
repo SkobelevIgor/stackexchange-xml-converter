@@ -1,4 +1,4 @@
-package types
+package encoders
 
 // Tag entity
 type Tag struct {

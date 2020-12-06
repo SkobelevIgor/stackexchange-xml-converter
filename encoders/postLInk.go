@@ -1,4 +1,4 @@
-package types
+package encoders
 
 // PostLink entity
 type PostLink struct {
