@@ -10,6 +10,7 @@ import (
 	"sync"
 )
 
+// StatusMsg status message
 type StatusMsg struct {
 	Name    string
 	Message string
@@ -41,6 +42,7 @@ func init() {
 	sourceFiles = []string{Badges, Comments, PostHistory, PostLinks, Posts, Tags, Users, Votes}
 }
 
+// Convert sourcePath xml to csv and store at storeToDir
 func Convert(sourcePath string, storeToDir string) (err error) {
 	sourcePathResolved, err := resolvePath(sourcePath)
 	if err != nil {

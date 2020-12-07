@@ -6,20 +6,20 @@ import (
 	"log"
 	"os"
 
-	"github.com/SkobelevIgor/stackexchange-xml-to-csv/types"
+	"github.com/SkobelevIgor/stackexchange-xml-to-csv/encoders"
 )
 
 func iterate(typeName string, xmlFile *os.File, csvFile *os.File) {
 	xmlDecoder := xml.NewDecoder(xmlFile)
 	csvWriter := csv.NewWriter(csvFile)
 
-	encoderType, err := types.NewEncoder(typeName)
+	enc, err := encoders.NewEncoder(typeName)
 	if err != nil {
 		// @TODO send to chan
 		return
 	}
 
-	err = csvWriter.Write(encoderType.GetCSVHeaderRow())
+	err = csvWriter.Write(enc.GetCSVHeaderRow())
 	if err != nil {
 		// @TODO send to chan
 		return
@@ -34,14 +34,20 @@ func iterate(typeName string, xmlFile *os.File, csvFile *os.File) {
 		switch ty := t.(type) {
 		case xml.StartElement:
 			if ty.Name.Local == "row" {
-				encoder, _ := types.NewEncoder(typeName)
+				enc, _ := encoders.NewEncoder(typeName)
 
-				if err = xmlDecoder.DecodeElement(&encoder, &ty); err != nil {
+				if err = enc.LoadData(&ty); err != nil {
 					log.Printf("File: %s. Error decoding item: %s",
 						xmlFile.Name(), err)
 					break
 				}
-				err = csvWriter.Write(encoder.GETCSVRow())
+
+				// if err = xmlDecoder.DecodeElement(&encoder, &ty); err != nil {
+				// 	log.Printf("File: %s. Error decoding item: %s",
+				// 		xmlFile.Name(), err)
+				// 	break
+				// }
+				err = csvWriter.Write(enc.GETCSVRow())
 			}
 		}
 
