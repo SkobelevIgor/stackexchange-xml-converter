@@ -1,5 +1,7 @@
 package encoders
 
+import "html"
+
 // User entity
 type User struct {
 	ID              string `xml:"Id,attr"`
@@ -23,8 +25,14 @@ func (u User) GetCSVHeaderRow() []string {
 		"WebsiteUrl", "AboutMe", "CreationDate", "LastAccessDate"}
 }
 
-func (u *User) GETCSVRow() []string {
+func (u *User) GETCSVRow(skipHtmlDecoding bool) []string {
+
+	aboutMe := u.AboutMe
+	if !skipHtmlDecoding {
+		aboutMe = html.EscapeString(aboutMe)
+	}
+
 	return []string{u.ID, u.AccountID, u.Reputation, u.Views,
 		u.DownVotes, u.UpVotes, u.DisplayName, u.Location, u.ProfileImageURL,
-		u.WebsiteURL, u.AboutMe, u.CreationDate, u.LastAccessDate}
+		u.WebsiteURL, aboutMe, u.CreationDate, u.LastAccessDate}
 }

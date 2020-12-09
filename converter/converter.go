@@ -41,7 +41,7 @@ func init() {
 	sourceFiles = []string{Badges, Comments, PostHistory, PostLinks, Posts, Tags, Users, Votes}
 }
 
-func Convert(sourcePath string, storeToDir string) (err error) {
+func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err error) {
 	sourcePathResolved, err := resolvePath(sourcePath)
 	if err != nil {
 		return
@@ -81,7 +81,7 @@ func Convert(sourcePath string, storeToDir string) (err error) {
 		f := filepath.Base(sf)
 		fName := f[:len(f)-len(filepath.Ext(f))]
 		csvFileName := fName + ".csv"
-		go convertXMLFile(&wg, fName, sf, filepath.Join(storeToDir, csvFileName))
+		convertXMLFile(&wg, fName, sf, filepath.Join(storeToDir, csvFileName), skipHTMLDecoding)
 	}
 
 	wg.Wait()
@@ -89,7 +89,7 @@ func Convert(sourcePath string, storeToDir string) (err error) {
 	return
 }
 
-func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, csvFilePath string) {
+func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, csvFilePath string, skipHTMLDecoding bool) {
 	wg.Add(1)
 	xmlFile, err := os.Open(xmlFilePath)
 	if err != nil {
@@ -105,7 +105,7 @@ func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, csv
 	}
 	defer csvFile.Close()
 
-	iterate(typeName, xmlFile, csvFile)
+	iterate(typeName, xmlFile, csvFile, skipHTMLDecoding)
 	wg.Done()
 }
 

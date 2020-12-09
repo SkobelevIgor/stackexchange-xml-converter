@@ -15,7 +15,7 @@ func (v Vote) GetCSVHeaderRow() []string {
 		"VoteTypeId", "BountyAmount", "CreationDate"}
 }
 
-func (v *Vote) GETCSVRow() []string {
+func (v *Vote) GETCSVRow(skipHtmlDecoding bool) []string {
 	return []string{v.ID, v.UserID, v.PostID,
 		v.VoteTypeID, v.BountyAmount, v.CreationDate}
 }

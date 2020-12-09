@@ -14,6 +14,6 @@ func (b Badge) GetCSVHeaderRow() []string {
 	return []string{"Id", "UserId", "Class", "Name", "TagBased", "Date"}
 }
 
-func (b *Badge) GETCSVRow() []string {
+func (b *Badge) GETCSVRow(skipHtmlDecoding bool) []string {
 	return []string{b.ID, b.UserID, b.Class, b.Name, b.TagBased, b.Date}
 }

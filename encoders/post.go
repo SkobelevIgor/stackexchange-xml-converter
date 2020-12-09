@@ -1,5 +1,7 @@
 package encoders
 
+import "html"
+
 // Post entity
 type Post struct {
 	ID                    string `xml:"Id,attr"`
@@ -38,14 +40,22 @@ func (p Post) GetCSVHeaderRow() []string {
 		"LastEditDate", "LastActivityDate"}
 }
 
-func (p *Post) GETCSVRow() []string {
+func (p *Post) GETCSVRow(skipHtmlDecoding bool) []string {
+
+	tags := p.Tags
+	body := p.Body
+	if !skipHtmlDecoding {
+		tags = html.EscapeString(tags)
+		body = html.EscapeString(body)
+	}
+
 	return []string{p.ID, p.OwnerUserID, p.LastEditorUserID,
 		p.PostTypeID, p.AcceptedAnswerID,
 		p.Score, p.ParentID, p.ViewCount,
 		p.AnswerCount, p.CommentCount,
 		p.OwnerDisplayName, p.LastEditorDisplayName,
-		p.Title, p.Tags, p.ContentLIcense,
-		p.Body, p.FavoriteCount, p.CreationDate,
+		p.Title, tags, p.ContentLIcense,
+		body, p.FavoriteCount, p.CreationDate,
 		p.CommunityOwnedDate, p.ClosedDate,
 		p.LastEditDate, p.LastActivityDate}
 }

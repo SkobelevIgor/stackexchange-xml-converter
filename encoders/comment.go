@@ -1,5 +1,7 @@
 package encoders
 
+import "html"
+
 // Comment entity
 type Comment struct {
 	ID              string `xml:"Id,attr"`
@@ -17,7 +19,13 @@ func (c Comment) GetCSVHeaderRow() []string {
 		"Score", "ContentLicense", "UserDisplayName", "Text", "CreationDate"}
 }
 
-func (c *Comment) GETCSVRow() []string {
+func (c *Comment) GETCSVRow(skipHtmlDecoding bool) []string {
+	text := c.Text
+	
+	if !skipHtmlDecoding {
+		text = html.EscapeString(text)
+	}
+
 	return []string{c.ID, c.PostID, c.UserID,
-		c.Score, c.ContentLicense, c.UserDisplayName, c.Text, c.CreationDate}
+		c.Score, c.ContentLicense, c.UserDisplayName, text, c.CreationDate}
 }

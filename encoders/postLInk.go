@@ -14,7 +14,7 @@ func (pl PostLink) GetCSVHeaderRow() []string {
 		"LinkTypeId", "CreationDate"}
 }
 
-func (pl PostLink) GETCSVRow() []string {
+func (pl PostLink) GETCSVRow(skipHtmlDecoding bool) []string {
 	return []string{pl.ID, pl.RelatedPostID, pl.PostID,
 		pl.LinkTypeID, pl.CreationDate}
 }

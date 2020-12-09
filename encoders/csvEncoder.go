@@ -5,7 +5,7 @@ import "fmt"
 // Entity interface
 type CSVEncoder interface {
 	GetCSVHeaderRow() []string
-	GETCSVRow() []string
+	GETCSVRow(skipHtmlDecoding bool) []string
 }
 
 func NewEncoder(typeName string) (c CSVEncoder, err error) {
