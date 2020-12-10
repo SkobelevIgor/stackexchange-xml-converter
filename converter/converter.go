@@ -81,7 +81,7 @@ func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err e
 		f := filepath.Base(sf)
 		fName := f[:len(f)-len(filepath.Ext(f))]
 		csvFileName := fName + ".csv"
-		convertXMLFile(&wg, fName, sf, filepath.Join(storeToDir, csvFileName), skipHTMLDecoding)
+		go convertXMLFile(&wg, fName, sf, filepath.Join(storeToDir, csvFileName), skipHTMLDecoding)
 	}
 
 	wg.Wait()
