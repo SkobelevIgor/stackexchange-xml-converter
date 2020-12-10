@@ -81,6 +81,7 @@ func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err e
 		f := filepath.Base(sf)
 		fName := f[:len(f)-len(filepath.Ext(f))]
 		csvFileName := fName + ".csv"
+		wg.Add(1)
 		go convertXMLFile(&wg, fName, sf, filepath.Join(storeToDir, csvFileName), skipHTMLDecoding)
 	}
 
@@ -90,7 +91,6 @@ func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err e
 }
 
 func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, csvFilePath string, skipHTMLDecoding bool) {
-	wg.Add(1)
 	xmlFile, err := os.Open(xmlFilePath)
 	if err != nil {
 		// @TODO send message to chan
