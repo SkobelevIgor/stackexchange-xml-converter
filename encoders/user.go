@@ -28,7 +28,7 @@ func (u User) GetCSVHeaderRow() []string {
 func (u *User) GETCSVRow(skipHtmlDecoding bool) []string {
 
 	aboutMe := u.AboutMe
-	if !skipHtmlDecoding {
+	if skipHtmlDecoding {
 		aboutMe = html.EscapeString(aboutMe)
 	}
 

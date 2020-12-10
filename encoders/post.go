@@ -44,7 +44,7 @@ func (p *Post) GETCSVRow(skipHtmlDecoding bool) []string {
 
 	tags := p.Tags
 	body := p.Body
-	if !skipHtmlDecoding {
+	if skipHtmlDecoding {
 		tags = html.EscapeString(tags)
 		body = html.EscapeString(body)
 	}

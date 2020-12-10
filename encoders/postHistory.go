@@ -26,7 +26,7 @@ func (ph PostHistory) GetCSVHeaderRow() []string {
 func (ph *PostHistory) GETCSVRow(skipHtmlDecoding bool) []string {
 
 	text := ph.Text
-	if !skipHtmlDecoding {
+	if skipHtmlDecoding {
 		text = html.EscapeString(text)
 	}
 

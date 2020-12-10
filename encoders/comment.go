@@ -22,7 +22,7 @@ func (c Comment) GetCSVHeaderRow() []string {
 func (c *Comment) GETCSVRow(skipHtmlDecoding bool) []string {
 	text := c.Text
 	
-	if !skipHtmlDecoding {
+	if skipHtmlDecoding {
 		text = html.EscapeString(text)
 	}
 
