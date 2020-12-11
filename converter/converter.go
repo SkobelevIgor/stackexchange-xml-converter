@@ -4,17 +4,14 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
 	"sync"
-)
 
-type StatusMsg struct {
-	Name    string
-	Message string
-	IsError bool
-}
+	"github.com/dustin/go-humanize"
+)
 
 const (
 	// Badges file name
@@ -53,8 +50,10 @@ func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err e
 	}
 
 	if len(sourceFiles) == 0 {
-		err = errors.New("Nothing to convert. Please specify correct source path to the extracted XML files")
-		return
+		err = errors.New("Nothing to convert")
+		return fmt.Errorf(
+			"Nothing to convert from %s. Please specify the correct source path to extracted XML files",
+			sourcePath)
 	}
 
 	if storeToDir != "" {
@@ -69,12 +68,13 @@ func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err e
 		}
 
 		if fi.Mode().IsDir() == false {
-			err = errors.New("Extract path has to be a directory, not a file")
-			return err
+			return fmt.Errorf("Result path [%s] has to be a directory, not a file", storeToDir)
 		}
 	} else {
 		storeToDir = sourcePathResolved
 	}
+
+	log.Printf("Total %d file(s) to convert", len(sourceFiles))
 
 	var wg sync.WaitGroup
 	for _, sf := range sourceFiles {
@@ -82,6 +82,7 @@ func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err e
 		fName := f[:len(f)-len(filepath.Ext(f))]
 		csvFileName := fName + ".csv"
 		wg.Add(1)
+		log.Printf("[%s] Converting is started", fName)
 		go convertXMLFile(&wg, fName, sf, filepath.Join(storeToDir, csvFileName), skipHTMLDecoding)
 	}
 
@@ -93,19 +94,25 @@ func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err e
 func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, csvFilePath string, skipHTMLDecoding bool) {
 	xmlFile, err := os.Open(xmlFilePath)
 	if err != nil {
-		// @TODO send message to chan
-		fmt.Println(err)
+		log.Printf("[%s] Error: %s", typeName, err)
+		return
 	}
 	defer xmlFile.Close()
 
 	csvFile, err := os.Create(csvFilePath)
 	if err != nil {
-		// @TODO send message to chan
-		fmt.Println(err)
+		log.Printf("[%s] Error: %s", typeName, err)
+		return
 	}
 	defer csvFile.Close()
 
-	iterate(typeName, xmlFile, csvFile, skipHTMLDecoding)
+	total, converted, err := iterate(typeName, xmlFile, csvFile, skipHTMLDecoding)
+	if err != nil {
+		log.Printf("[%s]. Error: %s. Skipping the file.", typeName, err)
+	} else {
+		log.Printf("[%s] File is converted. %s of %s row(s) has been processed succesfully",
+			typeName, humanize.Comma(total), humanize.Comma(converted))
+	}
 	wg.Done()
 }
 

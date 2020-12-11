@@ -9,19 +9,18 @@ import (
 	"github.com/SkobelevIgor/stackexchange-xml-to-csv/encoders"
 )
 
-func iterate(typeName string, xmlFile *os.File, csvFile *os.File, skipHTMLDecoding bool) {
+func iterate(typeName string, xmlFile *os.File, csvFile *os.File, skipHTMLDecoding bool) (totalCounter int64, convertedCounter int64, err error) {
 	xmlDecoder := xml.NewDecoder(xmlFile)
 	csvWriter := csv.NewWriter(csvFile)
+	defer csvWriter.Flush()
 
 	encoderType, err := encoders.NewEncoder(typeName)
 	if err != nil {
-		// @TODO send to chan
 		return
 	}
 
 	err = csvWriter.Write(encoderType.GetCSVHeaderRow())
 	if err != nil {
-		// @TODO send to chan
 		return
 	}
 
@@ -34,22 +33,25 @@ func iterate(typeName string, xmlFile *os.File, csvFile *os.File, skipHTMLDecodi
 		switch ty := t.(type) {
 		case xml.StartElement:
 			if ty.Name.Local == "row" {
+				totalCounter++
 				encoder, _ := encoders.NewEncoder(typeName)
+				err = xmlDecoder.DecodeElement(&encoder, &ty)
+				checkError(err, xmlFile)
 
-				if err = xmlDecoder.DecodeElement(&encoder, &ty); err != nil {
-					log.Printf("File: %s. Error decoding item: %s",
-						xmlFile.Name(), err)
-					break
-				}
 				err = csvWriter.Write(encoder.GETCSVRow(skipHTMLDecoding))
+				checkError(err, xmlFile)
+				convertedCounter++
 			}
 		}
 
 	}
 
-	csvWriter.Flush()
-	err = csvWriter.Error()
+	return
+}
+
+func checkError(err error, file *os.File) {
 	if err != nil {
-		// @TODO write to chan
+		log.Printf("[%s] Error: %s",
+			file.Name(), err)
 	}
 }
