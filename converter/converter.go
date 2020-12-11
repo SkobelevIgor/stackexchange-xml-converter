@@ -1,6 +1,7 @@
 package converter
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -39,6 +40,11 @@ func init() {
 
 // Convert xml files from sourcePath and store csv result file(s) to the storeDir
 func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err error) {
+
+	if sourcePath == "" {
+		return errors.New("--source-path parameter is required")
+	}
+
 	sourcePathResolved, err := resolvePath(sourcePath)
 	if err != nil {
 		return
