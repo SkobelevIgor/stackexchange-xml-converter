@@ -21,13 +21,13 @@ CREATE TABLE IF NOT EXISTS users (
 -- Posts
 CREATE TABLE posts (
 	id SERIAL PRIMARY KEY,
-	owner_user_id INTEGER NOT NULL,
-	last_editor_user_id INTEGER NOT NULL,
+	owner_user_id INTEGER,
+	last_editor_user_id INTEGER,
 	post_type_id SMALLINT NOT NULL,
-	accepted_answer_id INTEGER NOT NULL,
+	accepted_answer_id INTEGER,
 	score INTEGER NOT NULL,
-	parent_id INTEGER NOT NULL,
-	view_count INTEGER NOT NULL,
+	parent_id INTEGER,
+	view_count INTEGER,
 	answer_count INTEGER DEFAULT 0,
 	comment_count INTEGER DEFAULT 0,
 	owner_display_name VARCHAR(64),
@@ -36,7 +36,7 @@ CREATE TABLE posts (
 	tags VARCHAR(512),
 	content_license VARCHAR(64) NOT NULL,
 	body TEXT,
-	favorite_count INTEGER NOT NULL,
+	favorite_count INTEGER,
 	creation_date TIMESTAMP NOT NULL,
 	community_owned_date TIMESTAMP,
 	closed_date TIMESTAMP,
@@ -74,7 +74,7 @@ CREATE TABLE comments (
 	user_id INTEGER,
 	score SMALLINT NOT NULL,
 	content_license VARCHAR(64) NOT NULL,
-	user_display_name VARCHAR(64) NOT NULL,
+	user_display_name VARCHAR(64),
 	text TEXT,
 	creation_date TIMESTAMP NOT NULL
 );
@@ -85,7 +85,7 @@ CREATE TABLE votes (
 	user_id INTEGER,
 	post_id INTEGER NOT NULL,
 	vote_type_id SMALLINT NOT NULL,
-	bounty_amount SMALLINT NOT NULL,
+	bounty_amount SMALLINT,
 	creation_date TIMESTAMP NOT NULL
 );
 
@@ -102,8 +102,8 @@ CREATE TABLE badges (
 -- Tags
 CREATE TABLE tags (
 	id SERIAL PRIMARY KEY,
-	excerpt_post_id INTEGER NOT NULL,
-	wiki_post_id INTEGER NOT NULL,
+	excerpt_post_id INTEGER,
+	wiki_post_id INTEGER,
 	tag_name VARCHAR(255) NOT NULL,
 	count INTEGER DEFAULT 0
 );
