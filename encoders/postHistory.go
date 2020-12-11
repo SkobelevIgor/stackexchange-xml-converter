@@ -16,6 +16,7 @@ type PostHistory struct {
 	CreationDate      string `xml:"CreationDate,attr"`
 }
 
+// GetCSVHeaderRow returns CSV header for the correspondig encoder type
 func (ph PostHistory) GetCSVHeaderRow() []string {
 	return []string{"Id", "PostId", "UserId",
 		"PostHistoryTypeId", "UserDisplayName",
@@ -23,10 +24,11 @@ func (ph PostHistory) GetCSVHeaderRow() []string {
 		"Text", "Comment", "CreationDate"}
 }
 
-func (ph *PostHistory) GETCSVRow(skipHtmlDecoding bool) []string {
+// GETCSVRow returns row values for the corresponding encoder type
+func (ph *PostHistory) GETCSVRow(skipHTMLDecoding bool) []string {
 
 	text := ph.Text
-	if skipHtmlDecoding {
+	if skipHTMLDecoding {
 		text = html.EscapeString(text)
 	}
 

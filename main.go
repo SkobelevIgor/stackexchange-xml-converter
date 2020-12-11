@@ -7,7 +7,7 @@ import (
 	"github.com/SkobelevIgor/stackexchange-xml-to-csv/converter"
 )
 
-// Config Initial config
+// Config Initial config handler
 type Config struct {
 	SourcePath       string
 	StoreToDir       string

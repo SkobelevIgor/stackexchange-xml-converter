@@ -10,12 +10,14 @@ type Vote struct {
 	CreationDate string `xml:"CreationDate,attr"`
 }
 
+// GetCSVHeaderRow returns CSV header for the correspondig encoder type
 func (v Vote) GetCSVHeaderRow() []string {
 	return []string{"Id", "UserId", "PostId",
 		"VoteTypeId", "BountyAmount", "CreationDate"}
 }
 
-func (v *Vote) GETCSVRow(skipHtmlDecoding bool) []string {
+// GETCSVRow returns row values for the corresponding encoder type
+func (v *Vote) GETCSVRow(skipHTMLDecoding bool) []string {
 	return []string{v.ID, v.UserID, v.PostID,
 		v.VoteTypeID, v.BountyAmount, v.CreationDate}
 }

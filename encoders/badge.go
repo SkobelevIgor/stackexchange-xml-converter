@@ -10,10 +10,12 @@ type Badge struct {
 	Date     string `xml:"Date,attr"`
 }
 
+// GetCSVHeaderRow returns CSV header for the correspondig encoder type
 func (b Badge) GetCSVHeaderRow() []string {
 	return []string{"Id", "UserId", "Class", "Name", "TagBased", "Date"}
 }
 
-func (b *Badge) GETCSVRow(skipHtmlDecoding bool) []string {
+// GETCSVRow returns row values for the corresponding encoder type
+func (b *Badge) GETCSVRow(skipHTMLDecoding bool) []string {
 	return []string{b.ID, b.UserID, b.Class, b.Name, b.TagBased, b.Date}
 }

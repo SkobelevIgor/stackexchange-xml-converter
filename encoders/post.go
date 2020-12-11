@@ -28,6 +28,7 @@ type Post struct {
 	LastActivityDate      string `xml:"LastActivityDate,attr"`
 }
 
+// GetCSVHeaderRow returns CSV header for the correspondig encoder type
 func (p Post) GetCSVHeaderRow() []string {
 	return []string{"Id", "OwnerUserId", "LastEditorUserId",
 		"PostTypeId", "AcceptedAnswerId",
@@ -40,11 +41,12 @@ func (p Post) GetCSVHeaderRow() []string {
 		"LastEditDate", "LastActivityDate"}
 }
 
-func (p *Post) GETCSVRow(skipHtmlDecoding bool) []string {
+// GETCSVRow returns row values for the corresponding encoder type
+func (p *Post) GETCSVRow(skipHTMLDecoding bool) []string {
 
 	tags := p.Tags
 	body := p.Body
-	if skipHtmlDecoding {
+	if skipHTMLDecoding {
 		tags = html.EscapeString(tags)
 		body = html.EscapeString(body)
 	}

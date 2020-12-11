@@ -19,16 +19,18 @@ type User struct {
 	LastAccessDate  string `xml:"LastAccessDate,attr"`
 }
 
+// GetCSVHeaderRow returns CSV header for the correspondig encoder type
 func (u User) GetCSVHeaderRow() []string {
 	return []string{"Id", "AccountId", "Reputation", "Views",
 		"DownVotes", "UpVotes", "DisplayName", "Location", "ProfileImageUrl",
 		"WebsiteUrl", "AboutMe", "CreationDate", "LastAccessDate"}
 }
 
-func (u *User) GETCSVRow(skipHtmlDecoding bool) []string {
+// GETCSVRow returns row values for the corresponding encoder type
+func (u *User) GETCSVRow(skipHTMLDecoding bool) []string {
 
 	aboutMe := u.AboutMe
-	if skipHtmlDecoding {
+	if skipHTMLDecoding {
 		aboutMe = html.EscapeString(aboutMe)
 	}
 

@@ -2,12 +2,20 @@ package encoders
 
 import "fmt"
 
-// Entity interface
+// CSVEncoder interface
 type CSVEncoder interface {
+	// GetCSVHeaderRow returns CSV header for the correspondig encoder type.
+	// WARNING! Order is crucial!
+	// Fields will be written to the CSV file in the same order this function returns them.
 	GetCSVHeaderRow() []string
-	GETCSVRow(skipHtmlDecoding bool) []string
+
+	// GETCSVRow returns row values for the corresponding encoder type
+	// WARNING! Order is crucial!
+	// Values will be written to the CSV file in the same order this function returns them.
+	GETCSVRow(skipHTMLDecoding bool) []string
 }
 
+// NewEncoder returns a pointer to the new encoder according to requested type
 func NewEncoder(typeName string) (c CSVEncoder, err error) {
 	switch typeName {
 	case "Badges":

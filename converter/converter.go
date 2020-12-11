@@ -1,7 +1,6 @@
 package converter
 
 import (
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -38,6 +37,7 @@ func init() {
 	sourceFiles = []string{Badges, Comments, PostHistory, PostLinks, Posts, Tags, Users, Votes}
 }
 
+// Convert xml files from sourcePath and store csv result file(s) to the storeDir
 func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err error) {
 	sourcePathResolved, err := resolvePath(sourcePath)
 	if err != nil {
@@ -50,7 +50,6 @@ func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err e
 	}
 
 	if len(sourceFiles) == 0 {
-		err = errors.New("Nothing to convert")
 		return fmt.Errorf(
 			"Nothing to convert from %s. Please specify the correct source path to extracted XML files",
 			sourcePath)

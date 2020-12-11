@@ -14,15 +14,17 @@ type Comment struct {
 	CreationDate    string `xml:"CreationDate,attr"`
 }
 
+// GetCSVHeaderRow returns CSV header for the correspondig encoder type
 func (c Comment) GetCSVHeaderRow() []string {
 	return []string{"Id", "PostId", "UserId",
 		"Score", "ContentLicense", "UserDisplayName", "Text", "CreationDate"}
 }
 
-func (c *Comment) GETCSVRow(skipHtmlDecoding bool) []string {
+// GETCSVRow returns row values for the corresponding encoder type
+func (c *Comment) GETCSVRow(skipHTMLDecoding bool) []string {
 	text := c.Text
-	
-	if skipHtmlDecoding {
+
+	if skipHTMLDecoding {
 		text = html.EscapeString(text)
 	}
 
