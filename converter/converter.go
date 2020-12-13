@@ -42,7 +42,7 @@ func init() {
 func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err error) {
 
 	if sourcePath == "" {
-		return errors.New("--source-path parameter is required")
+		return errors.New("--source-path flag is required")
 	}
 
 	sourcePathResolved, err := resolvePath(sourcePath)
@@ -115,7 +115,7 @@ func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, csv
 	if err != nil {
 		log.Printf("[%s]. Error: %s. Skipping the file.", typeName, err)
 	} else {
-		log.Printf("[%s] File is converted. %s of %s row(s) has been processed succesfully",
+		log.Printf("[%s] File is converted. %s of %s row(s) has been processed successfully",
 			typeName, humanize.Comma(total), humanize.Comma(converted))
 	}
 	wg.Done()
