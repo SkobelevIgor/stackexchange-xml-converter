@@ -7,16 +7,17 @@ Table of contents
 * [Getting started](#getting-started)
     * [Download database dump](#download-database-dump)
     * [Extract](#extract)
-    * [stackexchange-xml-to-csv building](#stackexchange-xml-to-csv-building)
-    * [XML to CSV Convertation](#xml-to-csv-convertation)
+    * [Building of stackexchange-xml-to-csv](#building-of-stackexchange-xml-to-csv)
+    * [XML to CSV converting](#xml-to-csv-converting)
 * [RDBMS schema examples](#rdbms-schema-examples)
-    * [PostgreSQL](#postgresql)
 * [License](#license)
 
 
 Getting started
-================
-Before, ensure that you have a working [Go environment](https://golang.org/doc/install) with go version >= 1.14. Execute in the console `go version` command. It should display the current version of the compiler.
+===============
+Before, ensure that you have:
+* Working [Go environment](https://golang.org/doc/install) with go version >= 1.14. Execute in the console `go version` command. It should display the current version of the compiler.
+* Archiver that can extract `.7z` files. Possible candidate is [7z](https://www.7-zip.org/).
 
 
 Download database dump
@@ -38,7 +39,7 @@ Choose and download the [database dump](https://archive.org/download/stackexchan
 Extract
 =======
 
-Extract archive(s) content file(s) to the directory from where you will convert files using [7z](https://www.7-zip.org/) or another archiver.
+Extract archive(s) content file(s) to the directory from where you will convert files using `7z` or another archiver.
 
 Example with with [academia.stackexchange.com.7z](https://archive.org/download/stackexchange/academia.stackexchange.com.7z) dump:
 ```shell
@@ -48,8 +49,8 @@ $ ls xml/
 Badges.xml  Comments.xml  PostHistory.xml  PostLinks.xml  Posts.xml  Tags.xml  Users.xml  Votes.xml
 ```
 
-stackexchange-xml-to-csv building
-=================================
+Building of stackexchange-xml-to-csv
+====================================
 
 Clone & build `stackexchange-xml-to-csv` converter:
 
@@ -59,8 +60,8 @@ $ cd stackexchange-xml-to-csv/
 $ go build
 ```
 
-XML to CSV Convertation
-=======================
+XML to CSV converting
+=====================
 
 Now you have `stackexchange-xml-to-csv` executable file. Let’s convert XML files:
 ```
@@ -77,9 +78,7 @@ RDBMS schema examples
 =====================
 Here you can find examples of the schema for the different databases:
 
-PostgreSQL
-==========
-* [./example/postgresql_ddl.sql](./example/postgresql_ddl.sql)
+* [PostgreSQL](./example/postgresql_ddl.sql)
 
 License
 =======
