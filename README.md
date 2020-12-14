@@ -2,25 +2,25 @@
 
 **stackexchange-xml-to-csv** is a CLI tool that allows you to convert [Stack Exchange data dumps](https://archive.org/download/stackexchange) from `XML` to `CSV` format, which is more suitable for importing to the different databases.
 
-Table of contents.
+Table of contents
 =================
-* [Getting started](#get_start)
-    * [Download database dump](#download-dump)
-    * [Extract archive(s)](#extract)
-    * [stackexchange-xml-to-csv building](#stackexchange-xml-to-csv-build)
-    * [XML to CSV Convertation](#xml-to-csv)
-* [RDBMS schema examples](#examples)
-    * [PostgreSQL](#pg)
+* [Getting started](#getting-started)
+    * [Download database dump](#download-database-dump)
+    * [Extract](#extract)
+    * [stackexchange-xml-to-csv building](#stackexchange-xml-to-csv-building)
+    * [XML to CSV Convertation](#xml-to-csv-convertation)
+* [RDBMS schema examples](#rdbms-schema-examples)
+    * [PostgreSQL](#postgresql)
 * [License](#license)
 
 
-Getting started.
+Getting started
 ================
 Before, ensure that you have a working [Go environment](https://golang.org/doc/install) with go version >= 1.14. Execute in the console `go version` command. It should display the current version of the compiler.
 
 
-Download database dump.
-========================
+Download database dump
+======================
 
 Choose and download the [database dump](https://archive.org/download/stackexchange) that you are going to convert.
 
@@ -35,8 +35,8 @@ Choose and download the [database dump](https://archive.org/download/stackexchan
 * [stackoverflow.com-Users.7z](https://archive.org/download/stackexchange/stackoverflow.com-Users.7z)
 * [stackoverflow.com-Votes.7z](https://archive.org/download/stackexchange/stackoverflow.com-Votes.7z)
 
-Extract archive(s).
-===================
+Extract
+=======
 
 Extract archive(s) content file(s) to the directory from where you will convert files using [7z](https://www.7-zip.org/) or another archiver.
 
@@ -48,8 +48,8 @@ $ ls xml/
 Badges.xml  Comments.xml  PostHistory.xml  PostLinks.xml  Posts.xml  Tags.xml  Users.xml  Votes.xml
 ```
 
-stackexchange-xml-to-csv building.
-===================================
+stackexchange-xml-to-csv building
+=================================
 
 Clone & build `stackexchange-xml-to-csv` converter:
 
@@ -59,8 +59,8 @@ $ cd stackexchange-xml-to-csv/
 $ go build
 ```
 
-XML to CSV Convertation.
-========================
+XML to CSV Convertation
+=======================
 
 Now you have `stackexchange-xml-to-csv` executable file. Let’s convert XML files:
 ```
@@ -73,10 +73,13 @@ Now you have `stackexchange-xml-to-csv` executable file. Let’s convert XML fil
 * `skip-html-decoding` (**Optional**) Some of the files (e.g., Posts.xml) contain escaped HTML. By default, the converter will decode them. To disable this behavior, use this flag.
 
 
-Schema examples.
-================
-Here you can find examples of the schema for different databases:
-    * [PostgreSQL](./example/postgresql_ddl.sql)
+RDBMS schema examples
+=====================
+Here you can find examples of the schema for the different databases:
+
+PostgreSQL
+==========
+* [./example/postgresql_ddl.sql](./example/postgresql_ddl.sql)
 
 License
 =======
