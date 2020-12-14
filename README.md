@@ -76,7 +76,7 @@ Now you have `stackexchange-xml-to-csv` executable file. Let’s convert XML fil
 Schema examples.
 ================
 Here you can find examples of the schema for different databases:
-    * [PostgreSQL](./example/postgres_ddl.sql)
+    * [PostgreSQL](./example/postgresql_ddl.sql)
 
 License
 =======
