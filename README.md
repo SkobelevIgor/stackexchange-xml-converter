@@ -11,7 +11,6 @@ Table of contents.
     * [XML to CSV Convertation](#xml-to-csv)
 * [RDBMS schema examples](#examples)
     * [PostgreSQL](#pg)
-    * [MySQL](#mysql)
 * [License](#license)
 
 
@@ -20,8 +19,8 @@ Getting started.
 Before, ensure that you have a working [Go environment](https://golang.org/doc/install) with go version >= 1.14. Execute in the console `go version` command. It should display the current version of the compiler.
 
 
-1. Download database dump.
-==========================
+Download database dump.
+========================
 
 Choose and download the [database dump](https://archive.org/download/stackexchange) that you are going to convert.
 
@@ -36,8 +35,8 @@ Choose and download the [database dump](https://archive.org/download/stackexchan
 * [stackoverflow.com-Users.7z](https://archive.org/download/stackexchange/stackoverflow.com-Users.7z)
 * [stackoverflow.com-Votes.7z](https://archive.org/download/stackexchange/stackoverflow.com-Votes.7z)
 
-## 2. Extract archive(s).
-========================
+Extract archive(s).
+===================
 
 Extract archive(s) content file(s) to the directory from where you will convert files using [7z](https://www.7-zip.org/) or another archiver.
 
@@ -49,8 +48,8 @@ $ ls xml/
 Badges.xml  Comments.xml  PostHistory.xml  PostLinks.xml  Posts.xml  Tags.xml  Users.xml  Votes.xml
 ```
 
-## 3. stackexchange-xml-to-csv building.
-===========================================
+stackexchange-xml-to-csv building.
+===================================
 
 Clone & build `stackexchange-xml-to-csv` converter:
 
@@ -60,8 +59,8 @@ $ cd stackexchange-xml-to-csv/
 $ go build
 ```
 
-## 4. XML to CSV Convertation.
-=============================
+XML to CSV Convertation.
+========================
 
 Now you have `stackexchange-xml-to-csv` executable file. Let’s convert XML files:
 ```
@@ -77,10 +76,9 @@ Now you have `stackexchange-xml-to-csv` executable file. Let’s convert XML fil
 Schema examples.
 ================
 Here you can find examples of the schema for different databases:
-    * [PostgreSQL](example/postgres_ddl.sql)
-
+    * [PostgreSQL](./example/postgres_ddl.sql)
 
 License
 =======
 
-[MIT License](LICENSE)
+[MIT License](./LICENSE)
