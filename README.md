@@ -1,6 +1,6 @@
 # stackexchange-xml-to-csv
 
-**stackexchange-xml-to-csv** is a CLI tool that allows you to convert [Stack Exchange data dumps](https://archive.org/download/stackexchange) from `XML` to `CSV` format, which is more suitable for importing to the different databases.
+CLI tool that allows you to convert [Stack Exchange data dumps](https://archive.org/download/stackexchange) from `XML` to `CSV` format, which is more suitable for importing to the different databases.
 
 Table of contents
 =================
