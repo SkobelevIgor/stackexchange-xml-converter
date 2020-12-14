@@ -27,14 +27,14 @@ Choose and download the [database dump](https://archive.org/download/stackexchan
 
 **Important: Stackoverflow dump stored in 8 separated 7z archives:**
 
-* [stackoverflow.com-Badges.7z](https://archive.org/download/stackexchange/stackoverflow.com-Badges.7z)
-* [stackoverflow.com-Comments.7z](https://archive.org/download/stackexchange/stackoverflow.com-Comments.7z)
-* [stackoverflow.com-PostHistory.7z](https://archive.org/download/stackexchange/stackoverflow.com-PostHistory.7z)
-* [stackoverflow.com-PostLinks.7z](https://archive.org/download/stackexchange/stackoverflow.com-PostLinks.7z)
-* [stackoverflow.com-Posts.7z](https://archive.org/download/stackexchange/stackoverflow.com-Posts.7z)
-* [stackoverflow.com-Tags.7z](https://archive.org/download/stackexchange/stackoverflow.com-Tags.7z)
-* [stackoverflow.com-Users.7z](https://archive.org/download/stackexchange/stackoverflow.com-Users.7z)
-* [stackoverflow.com-Votes.7z](https://archive.org/download/stackexchange/stackoverflow.com-Votes.7z)
+* [stackoverflow.com-Badges.7z](https://archive.org/download/stackexchange/stackoverflow.com-Badges.7z) ( ~ **70M** compressed / **4G** uncompressed / **37M** rows )
+* [stackoverflow.com-Comments.7z](https://archive.org/download/stackexchange/stackoverflow.com-Comments.7z) ( ~ **4.5G** compressed / **22G** uncompressed / **76M** rows )
+* [stackoverflow.com-PostHistory.7z](https://archive.org/download/stackexchange/stackoverflow.com-PostHistory.7z) ( ~ **28.0G** compressed / **138G** uncompressed / **133M** rows)
+* [stackoverflow.com-PostLinks.7z](https://archive.org/download/stackexchange/stackoverflow.com-PostLinks.7z) ( ~ **100M** compressed / **800M** uncompressed / **7M** rows)
+* [stackoverflow.com-Posts.7z](https://archive.org/download/stackexchange/stackoverflow.com-Posts.7z) ( ~ **16G** compressed / **80G** uncompressed / **50M** rows)
+* [stackoverflow.com-Tags.7z](https://archive.org/download/stackexchange/stackoverflow.com-Tags.7z) ( ~ **900K** compressed / **5.0M** uncompressed / **60K** rows)
+* [stackoverflow.com-Users.7z](https://archive.org/download/stackexchange/stackoverflow.com-Users.7z) ( ~ **650M** compressed / **4.0G** uncompressed / **13M** rows)
+* [stackoverflow.com-Votes.7z](https://archive.org/download/stackexchange/stackoverflow.com-Votes.7z) ( ~ **1.0G** compressed / **20G** uncompressed / **200M** rows)
 
 Extract
 =======
