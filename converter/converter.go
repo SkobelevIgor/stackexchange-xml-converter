@@ -116,7 +116,7 @@ func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, csv
 		log.Printf("[%s]. Error: %s. Skipping the file.", typeName, err)
 	} else {
 		log.Printf("[%s] File is converted. %s of %s row(s) has been processed successfully",
-			typeName, humanize.Comma(total), humanize.Comma(converted))
+			typeName, humanize.Comma(converted), humanize.Comma(total))
 	}
 	wg.Done()
 }

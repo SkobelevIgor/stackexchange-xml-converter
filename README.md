@@ -37,7 +37,7 @@ Choose and download the [database dump](https://archive.org/download/stackexchan
 
 ### Extract
 
-Extract archive(s) content file(s) to the directory from where you will convert files using `7z` or another archiver.
+Extract archive(s) content file(s) to the directory from where you will convert XML files.
 
 Example with [academia.stackexchange.com.7z](https://archive.org/download/stackexchange/academia.stackexchange.com.7z) dump:
 ```shell

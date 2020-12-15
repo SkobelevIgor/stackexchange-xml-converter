@@ -2,7 +2,7 @@
 -- Schema does not include any kind of indexes
 
 -- Users
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
 	account_id INTEGER,
 	reputation INTEGER NOT NULL,
