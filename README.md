@@ -20,8 +20,7 @@ Before, ensure that you have:
 * Archiver that can extract `.7z` files. Possible candidate is [7z](https://www.7-zip.org/).
 
 
-Download database dump
-======================
+### Download database dump
 
 Choose and download the [database dump](https://archive.org/download/stackexchange) that you are going to convert.
 
@@ -36,12 +35,11 @@ Choose and download the [database dump](https://archive.org/download/stackexchan
 * [stackoverflow.com-Users.7z](https://archive.org/download/stackexchange/stackoverflow.com-Users.7z) ( ~ **650M** compressed / **4.0G** uncompressed / **13M** rows)
 * [stackoverflow.com-Votes.7z](https://archive.org/download/stackexchange/stackoverflow.com-Votes.7z) ( ~ **1.0G** compressed / **20G** uncompressed / **200M** rows)
 
-Extract
-=======
+### Extract
 
 Extract archive(s) content file(s) to the directory from where you will convert files using `7z` or another archiver.
 
-Example with with [academia.stackexchange.com.7z](https://archive.org/download/stackexchange/academia.stackexchange.com.7z) dump:
+Example with [academia.stackexchange.com.7z](https://archive.org/download/stackexchange/academia.stackexchange.com.7z) dump:
 ```shell
 $ mkdir xml csv
 $ 7z e academia.stackexchange.com.7z -oxml
@@ -49,8 +47,8 @@ $ ls xml/
 Badges.xml  Comments.xml  PostHistory.xml  PostLinks.xml  Posts.xml  Tags.xml  Users.xml  Votes.xml
 ```
 
-Building of stackexchange-xml-to-csv
-====================================
+### Building of stackexchange-xml-to-csv
+
 
 Clone & build `stackexchange-xml-to-csv` converter:
 
@@ -60,14 +58,14 @@ $ cd stackexchange-xml-to-csv/
 $ go build
 ```
 
-XML to CSV converting
-=====================
+### XML to CSV converting
+
 
 Now you have `stackexchange-xml-to-csv` executable file. Let’s convert XML files:
 ```
 ./stackexchange-xml-to-csv -—source-path=../xml --store-to-dir=../csv
 ```
-### List of possible flags:
+#### List of possible flags:
 
 * `source-path` (**Required**) Absolute or relative path to the directory with an XML file(s) or to the separate XML file.
 * `store-to-dir` (**Optional**) Absolute or relative path to the directory where to store result CSV files.
@@ -78,7 +76,7 @@ RDBMS schema examples
 =====================
 Here you can find examples of the schema for the different databases:
 
-* [PostgreSQL](./example/postgresql_ddl.sql)
+* [PostgreSQL](./schema_example/postgresql_ddl.sql)
 
 License
 =======
