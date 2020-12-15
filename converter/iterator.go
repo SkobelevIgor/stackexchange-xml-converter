@@ -36,22 +36,20 @@ func iterate(typeName string, xmlFile *os.File, csvFile *os.File, skipHTMLDecodi
 				totalCounter++
 				encoder, _ := encoders.NewEncoder(typeName)
 				err = xmlDecoder.DecodeElement(&encoder, &ty)
-				checkError(err, xmlFile)
+				if err != nil {
+					log.Printf("[%s] Error: %s", typeName, err)
+					continue
+				}
 
 				err = csvWriter.Write(encoder.GETCSVRow(skipHTMLDecoding))
-				checkError(err, xmlFile)
+				if err != nil {
+					log.Printf("[%s] Error: %s", typeName, err)
+					continue
+				}
 				convertedCounter++
 			}
 		}
-
 	}
 
 	return
-}
-
-func checkError(err error, file *os.File) {
-	if err != nil {
-		log.Printf("[%s] Error: %s",
-			file.Name(), err)
-	}
 }
