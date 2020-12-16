@@ -2,8 +2,8 @@ package encoders
 
 import "fmt"
 
-// CSVEncoder interface
-type CSVEncoder interface {
+// Encoder interface
+type Encoder interface {
 	// GetCSVHeaderRow returns CSV header for the correspondig encoder type.
 	// WARNING! Order is crucial!
 	// Fields will be written to the CSV file in the same order this function returns them.
@@ -16,7 +16,7 @@ type CSVEncoder interface {
 }
 
 // NewEncoder returns a pointer to the new encoder according to requested type
-func NewEncoder(typeName string) (c CSVEncoder, err error) {
+func NewEncoder(typeName string) (c Encoder, err error) {
 	switch typeName {
 	case "Badges":
 		c = &Badge{}
