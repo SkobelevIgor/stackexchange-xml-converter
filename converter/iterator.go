@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/SkobelevIgor/stackexchange-xml-to-csv/encoders"
+	"github.com/SkobelevIgor/stackexchange-xml-converter/encoders"
 )
 
 func iterate(typeName string, xmlFile *os.File, csvFile *os.File, skipHTMLDecoding bool) (totalCounter int64, convertedCounter int64, err error) {

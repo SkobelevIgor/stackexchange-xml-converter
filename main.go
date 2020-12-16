@@ -4,7 +4,7 @@ import (
 	"flag"
 	"log"
 
-	"github.com/SkobelevIgor/stackexchange-xml-to-csv/converter"
+	"github.com/SkobelevIgor/stackexchange-xml-converter/converter"
 )
 
 // Config Initial config handler
