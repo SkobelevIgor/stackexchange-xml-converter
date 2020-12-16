@@ -13,7 +13,7 @@ CREATE TABLE users (
 	location VARCHAR(512),
 	profile_image_url VARCHAR(255),
 	website_url VARCHAR(255),
-	about_me TEXT,
+	about_me MEDIUMTEXT,
 	creation_date TIMESTAMP(3) NOT NULL,
 	last_access_date TIMESTAMP(3) NOT NULL
 );
@@ -35,7 +35,7 @@ CREATE TABLE posts (
 	title VARCHAR(512),
 	tags VARCHAR(512),
 	content_license VARCHAR(64) NOT NULL,
-	body TEXT,
+	body MEDIUMTEXT,
 	favorite_count INTEGER,
 	creation_date TIMESTAMP(3) NOT NULL,
 	community_owned_date TIMESTAMP(3),
@@ -63,8 +63,8 @@ CREATE TABLE post_history (
 	user_display_name VARCHAR(64),
 	content_license VARCHAR(64),
 	revision_guid uuid,
-	text TEXT,
-	comment TEXT,
+	text MEDIUMTEXT,
+	comment MEDIUMTEXT,
 	creation_date TIMESTAMP(3) NOT NULL
 );
 
@@ -76,7 +76,7 @@ CREATE TABLE comments (
 	score TINYINT NOT NULL,
 	content_license VARCHAR(64) NOT NULL,
 	user_display_name VARCHAR(64),
-	text TEXT,
+	text MEDIUMTEXT,
 	creation_date TIMESTAMP(3) NOT NULL
 );
 
