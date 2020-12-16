@@ -13,6 +13,14 @@ import (
 	"github.com/dustin/go-humanize"
 )
 
+// Config Initial config handler
+type Config struct {
+	ResultFormat     string
+	SourcePath       string
+	StoreToDir       string
+	SkipHTMLDecoding bool
+}
+
 const (
 	// Badges file name
 	Badges = "Badges.xml"
@@ -32,20 +40,35 @@ const (
 	Votes = "Votes.xml"
 )
 
-var sourceFiles []string
+var (
+	sourceFiles     []string
+	converterConfig Config
+)
 
 func init() {
 	sourceFiles = []string{Badges, Comments, PostHistory, PostLinks, Posts, Tags, Users, Votes}
 }
 
 // Convert xml files from sourcePath and store csv result file(s) to the storeDir
-func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err error) {
+// func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err error) {
+func Convert(cfg Config) (err error) {
 
-	if sourcePath == "" {
+	converterConfig = cfg
+
+	if cfg.SourcePath == "" {
 		return errors.New("--source-path flag is required")
 	}
 
-	sourcePathResolved, err := resolvePath(sourcePath)
+	if cfg.ResultFormat == "" {
+		return errors.New("--result-format flag is required")
+	}
+
+	cfg.ResultFormat = strings.ToLower(cfg.ResultFormat)
+	if cfg.ResultFormat != "csv" && cfg.ResultFormat != "json" {
+		return fmt.Errorf("Unknown result format %s. Expected: csv or json", cfg.ResultFormat)
+	}
+
+	sourcePathResolved, err := resolvePath(cfg.SourcePath)
 	if err != nil {
 		return
 	}
@@ -58,11 +81,11 @@ func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err e
 	if len(sourceFiles) == 0 {
 		return fmt.Errorf(
 			"Nothing to convert from %s. Please specify the correct source path to extracted XML files",
-			sourcePath)
+			cfg.SourcePath)
 	}
 
-	if storeToDir != "" {
-		storeTo, err := resolvePath(storeToDir)
+	if cfg.StoreToDir != "" {
+		storeTo, err := resolvePath(cfg.StoreToDir)
 		if err != nil {
 			return err
 		}
@@ -73,10 +96,10 @@ func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err e
 		}
 
 		if fi.Mode().IsDir() == false {
-			return fmt.Errorf("Result path [%s] has to be a directory, not a file", storeToDir)
+			return fmt.Errorf("Result path [%s] has to be a directory, not a file", cfg.StoreToDir)
 		}
 	} else {
-		storeToDir = sourcePathResolved
+		cfg.StoreToDir = sourcePathResolved
 	}
 
 	log.Printf("Total %d file(s) to convert", len(sourceFiles))
@@ -84,11 +107,12 @@ func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err e
 	var wg sync.WaitGroup
 	for _, sf := range sourceFiles {
 		f := filepath.Base(sf)
-		fName := f[:len(f)-len(filepath.Ext(f))]
-		csvFileName := fName + ".csv"
+		typeName := f[:len(f)-len(filepath.Ext(f))]
+		resultFile := filepath.Join(cfg.StoreToDir,
+			fmt.Sprintf("%s.%s", typeName, cfg.ResultFormat))
 		wg.Add(1)
-		log.Printf("[%s] Converting is started", fName)
-		go convertXMLFile(&wg, fName, sf, filepath.Join(storeToDir, csvFileName), skipHTMLDecoding)
+		log.Printf("[%s] Converting is started", typeName)
+		go convertXMLFile(&wg, typeName, sf, resultFile)
 	}
 
 	wg.Wait()
@@ -96,7 +120,7 @@ func Convert(sourcePath string, storeToDir string, skipHTMLDecoding bool) (err e
 	return
 }
 
-func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, csvFilePath string, skipHTMLDecoding bool) {
+func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, resultFilePath string) {
 	xmlFile, err := os.Open(xmlFilePath)
 	if err != nil {
 		log.Printf("[%s] Error: %s", typeName, err)
@@ -104,14 +128,21 @@ func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, csv
 	}
 	defer xmlFile.Close()
 
-	csvFile, err := os.Create(csvFilePath)
+	resultFile, err := os.Create(resultFilePath)
 	if err != nil {
 		log.Printf("[%s] Error: %s", typeName, err)
 		return
 	}
-	defer csvFile.Close()
+	defer resultFile.Close()
 
-	total, converted, err := iterate(typeName, xmlFile, csvFile, skipHTMLDecoding)
+	var total, converted int64
+	switch converterConfig.ResultFormat {
+	case "csv":
+		total, converted, err = convertToCSV(typeName, xmlFile, resultFile, converterConfig)
+	case "json":
+		total, converted, err = convertToJSON(typeName, xmlFile, resultFile, converterConfig)
+	}
+
 	if err != nil {
 		log.Printf("[%s]. Error: %s. Skipping the file.", typeName, err)
 	} else {

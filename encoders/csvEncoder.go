@@ -35,7 +35,7 @@ func NewEncoder(typeName string) (c Encoder, err error) {
 	case "Votes":
 		c = &Vote{}
 	default:
-		err = fmt.Errorf("Undefined CSVEncoder type: %s", typeName)
+		err = fmt.Errorf("Undefined Encoder type: %s", typeName)
 	}
 	return
 }
