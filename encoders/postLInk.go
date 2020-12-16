@@ -2,11 +2,11 @@ package encoders
 
 // PostLink entity
 type PostLink struct {
-	ID            string `xml:"Id,attr"`
-	RelatedPostID string `xml:"RelatedPostId,attr"`
-	PostID        string `xml:"PostId,attr"`
-	LinkTypeID    string `xml:"LinkTypeId,attr"`
-	CreationDate  string `xml:"CreationDate,attr"`
+	ID            string `xml:"Id,attr" json:"Id"`
+	RelatedPostID string `xml:"RelatedPostId,attr" json:"RelatedPostId"`
+	PostID        string `xml:"PostId,attr" json:"PostId"`
+	LinkTypeID    string `xml:"LinkTypeId,attr" json:"LinkTypeId"`
+	CreationDate  string `xml:"CreationDate,attr" json:"CreationDate"`
 }
 
 // GetCSVHeaderRow returns CSV header for the correspondig encoder type

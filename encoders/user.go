@@ -4,19 +4,19 @@ import "html"
 
 // User entity
 type User struct {
-	ID              string `xml:"Id,attr"`
-	AccountID       string `xml:"AccountId,attr"`
-	Reputation      string `xml:"Reputation,attr"`
-	Views           string `xml:"Views,attr"`
-	DownVotes       string `xml:"DownVotes,attr"`
-	UpVotes         string `xml:"UpVotes,attr"`
-	DisplayName     string `xml:"DisplayName,attr"`
-	Location        string `xml:"Location,attr"`
-	ProfileImageURL string `xml:"ProfileImageUrl,attr"`
-	WebsiteURL      string `xml:"WebsiteUrl,attr"`
-	AboutMe         string `xml:"AboutMe,attr"`
-	CreationDate    string `xml:"CreationDate,attr"`
-	LastAccessDate  string `xml:"LastAccessDate,attr"`
+	ID              string `xml:"Id,attr" json:"Id"`
+	AccountID       string `xml:"AccountId,attr" json:"AccountId,omitempty"`
+	Reputation      string `xml:"Reputation,attr" json:"Reputation"`
+	Views           string `xml:"Views,attr" json:"Views,omitempty"`
+	DownVotes       string `xml:"DownVotes,attr" json:"DownVotes,omitempty"`
+	UpVotes         string `xml:"UpVotes,attr" json:"UpVotes,omitempty"`
+	DisplayName     string `xml:"DisplayName,attr" json:"DisplayName"`
+	Location        string `xml:"Location,attr" json:"Location,omitempty"`
+	ProfileImageURL string `xml:"ProfileImageUrl,attr" json:"ProfileImageUrl,omitempty"`
+	WebsiteURL      string `xml:"WebsiteUrl,attr" json:"WebsiteUrl,omitempty"`
+	AboutMe         string `xml:"AboutMe,attr" json:"AboutMe,omitempty"`
+	CreationDate    string `xml:"CreationDate,attr" json:"CreationDate"`
+	LastAccessDate  string `xml:"LastAccessDate,attr" json:"LastAccessDate"`
 }
 
 // GetCSVHeaderRow returns CSV header for the correspondig encoder type

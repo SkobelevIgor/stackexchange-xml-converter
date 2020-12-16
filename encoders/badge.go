@@ -2,12 +2,12 @@ package encoders
 
 // Badge entity
 type Badge struct {
-	ID       string `xml:"Id,attr"`
-	UserID   string `xml:"UserId,attr"`
-	Class    string `xml:"Class,attr"`
-	Name     string `xml:"Name,attr"`
-	TagBased string `xml:"TagBased,attr"`
-	Date     string `xml:"Date,attr"`
+	ID       string `xml:"Id,attr" json:"Id"`
+	UserID   string `xml:"UserId,attr" json:"UserId"`
+	Class    string `xml:"Class,attr" json:"Class"`
+	Name     string `xml:"Name,attr" json:"Name"`
+	TagBased string `xml:"TagBased,attr" json:"TagBased"`
+	Date     string `xml:"Date,attr" json:"Date"`
 }
 
 // GetCSVHeaderRow returns CSV header for the correspondig encoder type

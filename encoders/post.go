@@ -4,28 +4,28 @@ import "html"
 
 // Post entity
 type Post struct {
-	ID                    string `xml:"Id,attr"`
-	OwnerUserID           string `xml:"OwnerUserId,attr"`
-	LastEditorUserID      string `xml:"LastEditorUserId,attr"`
-	PostTypeID            string `xml:"PostTypeId,attr"`
-	AcceptedAnswerID      string `xml:"AcceptedAnswerId,attr"`
-	Score                 string `xml:"Score,attr"`
-	ParentID              string `xml:"ParentId,attr"`
-	ViewCount             string `xml:"ViewCount,attr"`
-	AnswerCount           string `xml:"AnswerCount,attr"`
-	CommentCount          string `xml:"CommentCount,attr"`
-	OwnerDisplayName      string `xml:"OwnerDisplayName,attr"`
-	LastEditorDisplayName string `xml:"LastEditorDisplayName,attr"`
-	Title                 string `xml:"Title,attr"`
-	Tags                  string `xml:"Tags,attr"`
-	ContentLIcense        string `xml:"ContentLicense,attr"`
-	Body                  string `xml:"Body,attr"`
-	FavoriteCount         string `xml:"FavoriteCount,attr"`
-	CreationDate          string `xml:"CreationDate,attr"`
-	CommunityOwnedDate    string `xml:"CommunityOwnedDate,attr"`
-	ClosedDate            string `xml:"ClosedDate,attr"`
-	LastEditDate          string `xml:"LastEditDate,attr"`
-	LastActivityDate      string `xml:"LastActivityDate,attr"`
+	ID                    string `xml:"Id,attr" json:"Id"`
+	OwnerUserID           string `xml:"OwnerUserId,attr" json:"OwnerUserId,omitempty"`
+	LastEditorUserID      string `xml:"LastEditorUserId,attr" json:"LastEditorUserId,omitempty"`
+	PostTypeID            string `xml:"PostTypeId,attr" json:"PostTypeId"`
+	AcceptedAnswerID      string `xml:"AcceptedAnswerId,attr" json:"AcceptedAnswerId,omitempty"`
+	Score                 string `xml:"Score,attr" json:"Score"`
+	ParentID              string `xml:"ParentId,attr" json:"ParentId,omitempty"`
+	ViewCount             string `xml:"ViewCount,attr" json:"ViewCount,omitempty"`
+	AnswerCount           string `xml:"AnswerCount,attr" json:"AnswerCount,omitempty"`
+	CommentCount          string `xml:"CommentCount,attr" json:"CommentCount,omitempty"`
+	OwnerDisplayName      string `xml:"OwnerDisplayName,attr" json:"OwnerDisplayName,omitempty"`
+	LastEditorDisplayName string `xml:"LastEditorDisplayName,attr" json:"LastEditorDisplayName"`
+	Title                 string `xml:"Title,attr" json:"Title,omitempty"`
+	Tags                  string `xml:"Tags,attr" json:"Tags,omitempty"`
+	ContentLIcense        string `xml:"ContentLicense,attr" json:"ContentLicense"`
+	Body                  string `xml:"Body,attr" json:"Body,omitempty"`
+	FavoriteCount         string `xml:"FavoriteCount,attr" json:"FavoriteCount,omitempty"`
+	CreationDate          string `xml:"CreationDate,attr" json:"CreationDate"`
+	CommunityOwnedDate    string `xml:"CommunityOwnedDate,attr" json:"CommunityOwnedDate,omitempty"`
+	ClosedDate            string `xml:"ClosedDate,attr" json:"ClosedDate,omitempty"`
+	LastEditDate          string `xml:"LastEditDate,attr" json:"LastEditDate,omitempty"`
+	LastActivityDate      string `xml:"LastActivityDate,attr" json:"LastActivityDate,omitempty"`
 }
 
 // GetCSVHeaderRow returns CSV header for the correspondig encoder type

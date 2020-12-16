@@ -2,12 +2,12 @@ package encoders
 
 // Vote entity
 type Vote struct {
-	ID           string `xml:"Id,attr"`
-	UserID       string `xml:"UserId,attr"`
-	PostID       string `xml:"PostId,attr"`
-	VoteTypeID   string `xml:"VoteTypeId,attr"`
-	BountyAmount string `xml:"BountyAmount,attr"`
-	CreationDate string `xml:"CreationDate,attr"`
+	ID           string `xml:"Id,attr" json:"Id"`
+	UserID       string `xml:"UserId,attr" json:"UserId,omitempty"`
+	PostID       string `xml:"PostId,attr" json:"PostId"`
+	VoteTypeID   string `xml:"VoteTypeId,attr" json:"VoteTypeId"`
+	BountyAmount string `xml:"BountyAmount,attr" json:"BountyAmount,omitempty"`
+	CreationDate string `xml:"CreationDate,attr" json:"CreationDate"`
 }
 
 // GetCSVHeaderRow returns CSV header for the correspondig encoder type

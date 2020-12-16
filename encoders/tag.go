@@ -2,11 +2,11 @@ package encoders
 
 // Tag entity
 type Tag struct {
-	ID            string `xml:"Id,attr"`
-	ExcerptPostID string `xml:"ExcerptPostId,attr"`
-	WikiPostID    string `xml:"WikiPostId,attr"`
-	TagName       string `xml:"TagName,attr"`
-	Count         string `xml:"Count,attr"`
+	ID            string `xml:"Id,attr" json:"Id"`
+	ExcerptPostID string `xml:"ExcerptPostId,attr" json:"ExcerptPostId,omitempty"`
+	WikiPostID    string `xml:"WikiPostId,attr" json:"WikiPostId,omitempty"`
+	TagName       string `xml:"TagName,attr" json:"TagName"`
+	Count         string `xml:"Count,attr" json:"Count,omitempty"`
 }
 
 // GetCSVHeaderRow returns CSV header for the correspondig encoder type

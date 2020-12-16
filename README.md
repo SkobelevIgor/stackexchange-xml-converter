@@ -4,14 +4,22 @@ CLI tool that allows you to convert [Stack Exchange data dumps](https://archive.
 
 Table of contents
 =================
+* [RDBMS schema examples](#rdbms-schema-examples)
+    * [PostgreSQL]()
+    * [MySQL]()
 * [Getting started](#getting-started)
     * [Download database dump](#download-database-dump)
     * [Extract](#extract)
     * [Building of stackexchange-xml-converter](#building-of-stackexchange-xml-converter)
     * [XML to CSV converting](#xml-to-csv-converting)
-* [RDBMS schema examples](#rdbms-schema-examples)
 * [License](#license)
 
+RDBMS schema examples
+=====================
+Here you can find examples of the schema for the different databases:
+
+* [PostgreSQL](./schema_example/postgresql_ddl.sql)
+* [MySQL](./schema_example/mysql_ddl.sql)
 
 Getting started
 ===============
@@ -47,8 +55,7 @@ $ ls xml/
 Badges.xml  Comments.xml  PostHistory.xml  PostLinks.xml  Posts.xml  Tags.xml  Users.xml  Votes.xml
 ```
 
-### Building of 
-stackexchange-xml-converter
+### Building of stackexchange-xml-converter
 
 
 Clone & build `
@@ -60,25 +67,18 @@ $ cd stackexchange-xml-converter/
 $ go build
 ```
 
-### XML to CSV converting
+### XML to CSV/JSON converting
 
 
-Now you have `stackexchange-xml-converter` executable file. Let’s convert XML files:
+Now you have the `stackexchange-xml-converter` executable file. Let’s convert XML files to the CSV format:
 ```
-./stackexchange-xml-converter -—source-path=../xml --store-to-dir=../csv
+./stackexchange-xml-converter --result-format=csv -—source-path=../xml --store-to-dir=../csv
 ```
 #### List of possible flags:
 
 * `source-path` (**Required**) Absolute or relative path to the directory with an XML file(s) or to the separate XML file.
 * `store-to-dir` (**Optional**) Absolute or relative path to the directory where to store result CSV files.
 * `skip-html-decoding` (**Optional**) Some of the files (e.g., Posts.xml) contain escaped HTML. By default, the converter will decode them. To disable this behavior, use this flag.
-
-
-RDBMS schema examples
-=====================
-Here you can find examples of the schema for the different databases:
-
-* [PostgreSQL](./schema_example/postgresql_ddl.sql)
 
 License
 =======

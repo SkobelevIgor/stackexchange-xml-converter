@@ -4,14 +4,14 @@ import "html"
 
 // Comment entity
 type Comment struct {
-	ID              string `xml:"Id,attr"`
-	PostID          string `xml:"PostId,attr"`
-	UserID          string `xml:"UserId,attr"`
-	Score           string `xml:"Score,attr"`
-	ContentLicense  string `xml:"ContentLicense,attr"`
-	UserDisplayName string `xml:"UserDisplayName,attr"`
-	Text            string `xml:"Text,attr"`
-	CreationDate    string `xml:"CreationDate,attr"`
+	ID              string `xml:"Id,attr" json:"Id"`
+	PostID          string `xml:"PostId,attr" json:"PostId"`
+	UserID          string `xml:"UserId,attr" json:"UserId,omitempty"`
+	Score           string `xml:"Score,attr" json:"Score"`
+	ContentLicense  string `xml:"ContentLicense,attr" json:"ContentLicense"`
+	UserDisplayName string `xml:"UserDisplayName,attr" json:"UserDisplayName,omitempty"`
+	Text            string `xml:"Text,attr" json:"Text,omitempty"`
+	CreationDate    string `xml:"CreationDate,attr" json:"CreationDate"`
 }
 
 // GetCSVHeaderRow returns CSV header for the correspondig encoder type
