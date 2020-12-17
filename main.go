@@ -16,6 +16,10 @@ func main() {
 	flag.BoolVar(&cfg.SkipHTMLDecoding, "skip-html-decoding", false, "Path where to store CSV file(s)")
 	flag.Parse()
 
+	// cfg.ResultFormat = "json"
+	// cfg.SourcePath = "../../Desktop/academia.stackexchange.com"
+	// cfg.StoreToDir = "../../Desktop/academia_json"
+
 	var err error
 	err = converter.Convert(cfg)
 	if err != nil {

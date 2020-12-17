@@ -13,7 +13,7 @@ type PostHistory struct {
 	RevisionGUID      string `xml:"RevisionGUID,attr" json:"RevisionGUID,omitempty"`
 	Text              string `xml:"Text,attr" json:"Text,omitempty"`
 	Comment           string `xml:"Comment,attr" json:"Comment,omitempty"`
-	CreationDate      string `xml:"CreationDate,attr" json:"CreationDate"`
+	CreationDate      string `xml:"CreationDate,attr"`
 }
 
 // GetCSVHeaderRow returns CSV header for the correspondig encoder type
@@ -25,15 +25,14 @@ func (ph PostHistory) GetCSVHeaderRow() []string {
 }
 
 // GETCSVRow returns row values for the corresponding encoder type
-func (ph *PostHistory) GETCSVRow(skipHTMLDecoding bool) []string {
-
-	text := ph.Text
-	if skipHTMLDecoding {
-		text = html.EscapeString(text)
-	}
-
+func (ph *PostHistory) GETCSVRow() []string {
 	return []string{ph.ID, ph.PostID, ph.UserID,
 		ph.PostHistoryTypeID, ph.UserDisplayName,
 		ph.ContentLicense, ph.RevisionGUID,
-		text, ph.Comment, ph.CreationDate}
+		ph.Text, ph.Comment, ph.CreationDate}
+}
+
+// EscapeFields update fields to the original (escaped) state.
+func (ph *PostHistory) EscapeFields() {
+	ph.Text = html.EscapeString(ph.Text)
 }

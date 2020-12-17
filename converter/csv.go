@@ -30,13 +30,17 @@ func convertToCSV(typeName string, xmlFile *os.File, csvFile *os.File, cfg Confi
 		encoder, _ := encoders.NewEncoder(typeName)
 		iErr = iterator.Decode(&encoder)
 		if iErr != nil {
-			log.Printf("[%s] Error: %s", xmlFile.Name(), iErr)
+			log.Printf("[%s] Error: %s", typeName, iErr)
 			continue
 		}
 
-		iErr = csvWriter.Write(encoder.GETCSVRow(cfg.SkipHTMLDecoding))
+		if cfg.SkipHTMLDecoding {
+			encoder.EscapeFields()
+		}
+
+		iErr = csvWriter.Write(encoder.GETCSVRow())
 		if iErr != nil {
-			log.Printf("[%s] Error: %s", xmlFile.Name(), iErr)
+			log.Printf("[%s] Error: %s", typeName, iErr)
 			continue
 		}
 		converted++

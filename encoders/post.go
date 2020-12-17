@@ -9,19 +9,19 @@ type Post struct {
 	LastEditorUserID      string `xml:"LastEditorUserId,attr" json:"LastEditorUserId,omitempty"`
 	PostTypeID            string `xml:"PostTypeId,attr" json:"PostTypeId"`
 	AcceptedAnswerID      string `xml:"AcceptedAnswerId,attr" json:"AcceptedAnswerId,omitempty"`
-	Score                 string `xml:"Score,attr" json:"Score"`
+	Score                 string `xml:"Score,attr"`
 	ParentID              string `xml:"ParentId,attr" json:"ParentId,omitempty"`
 	ViewCount             string `xml:"ViewCount,attr" json:"ViewCount,omitempty"`
 	AnswerCount           string `xml:"AnswerCount,attr" json:"AnswerCount,omitempty"`
 	CommentCount          string `xml:"CommentCount,attr" json:"CommentCount,omitempty"`
 	OwnerDisplayName      string `xml:"OwnerDisplayName,attr" json:"OwnerDisplayName,omitempty"`
-	LastEditorDisplayName string `xml:"LastEditorDisplayName,attr" json:"LastEditorDisplayName"`
+	LastEditorDisplayName string `xml:"LastEditorDisplayName,attr"`
 	Title                 string `xml:"Title,attr" json:"Title,omitempty"`
 	Tags                  string `xml:"Tags,attr" json:"Tags,omitempty"`
-	ContentLIcense        string `xml:"ContentLicense,attr" json:"ContentLicense"`
+	ContentLIcense        string `xml:"ContentLicense,attr"`
 	Body                  string `xml:"Body,attr" json:"Body,omitempty"`
 	FavoriteCount         string `xml:"FavoriteCount,attr" json:"FavoriteCount,omitempty"`
-	CreationDate          string `xml:"CreationDate,attr" json:"CreationDate"`
+	CreationDate          string `xml:"CreationDate,attr"`
 	CommunityOwnedDate    string `xml:"CommunityOwnedDate,attr" json:"CommunityOwnedDate,omitempty"`
 	ClosedDate            string `xml:"ClosedDate,attr" json:"ClosedDate,omitempty"`
 	LastEditDate          string `xml:"LastEditDate,attr" json:"LastEditDate,omitempty"`
@@ -42,22 +42,20 @@ func (p Post) GetCSVHeaderRow() []string {
 }
 
 // GETCSVRow returns row values for the corresponding encoder type
-func (p *Post) GETCSVRow(skipHTMLDecoding bool) []string {
-
-	tags := p.Tags
-	body := p.Body
-	if skipHTMLDecoding {
-		tags = html.EscapeString(tags)
-		body = html.EscapeString(body)
-	}
-
+func (p *Post) GETCSVRow() []string {
 	return []string{p.ID, p.OwnerUserID, p.LastEditorUserID,
 		p.PostTypeID, p.AcceptedAnswerID,
 		p.Score, p.ParentID, p.ViewCount,
 		p.AnswerCount, p.CommentCount,
 		p.OwnerDisplayName, p.LastEditorDisplayName,
-		p.Title, tags, p.ContentLIcense,
-		body, p.FavoriteCount, p.CreationDate,
+		p.Title, p.Tags, p.ContentLIcense,
+		p.Body, p.FavoriteCount, p.CreationDate,
 		p.CommunityOwnedDate, p.ClosedDate,
 		p.LastEditDate, p.LastActivityDate}
+}
+
+// EscapeFields update fields to the original (escaped) state.
+func (p *Post) EscapeFields() {
+	p.Tags = html.EscapeString(p.Tags)
+	p.Body = html.EscapeString(p.Body)
 }

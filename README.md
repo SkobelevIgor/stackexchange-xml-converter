@@ -1,6 +1,6 @@
 # stackexchange-xml-converter
 
-CLI tool that allows you to convert [Stack Exchange data dumps](https://archive.org/download/stackexchange) from `XML` to `CSV` format, which is more suitable for importing to the different databases.
+CLI tool that allows you to convert [Stack Exchange data dumps](https://archive.org/download/stackexchange) from `XML` to `CSV` or `JSON` formats, which is more suitable for importing to the different databases.
 
 Table of contents
 =================
@@ -76,6 +76,7 @@ Now you have the `stackexchange-xml-converter` executable file. Let’s convert 
 ```
 #### List of possible flags:
 
+* `result-format` (**Required**) Result format (csv or json)
 * `source-path` (**Required**) Absolute or relative path to the directory with an XML file(s) or to the separate XML file.
 * `store-to-dir` (**Optional**) Absolute or relative path to the directory where to store result CSV files.
 * `skip-html-decoding` (**Optional**) Some of the files (e.g., Posts.xml) contain escaped HTML. By default, the converter will decode them. To disable this behavior, use this flag.

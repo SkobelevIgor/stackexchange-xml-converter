@@ -7,7 +7,7 @@ type Vote struct {
 	PostID       string `xml:"PostId,attr" json:"PostId"`
 	VoteTypeID   string `xml:"VoteTypeId,attr" json:"VoteTypeId"`
 	BountyAmount string `xml:"BountyAmount,attr" json:"BountyAmount,omitempty"`
-	CreationDate string `xml:"CreationDate,attr" json:"CreationDate"`
+	CreationDate string `xml:"CreationDate,attr"`
 }
 
 // GetCSVHeaderRow returns CSV header for the correspondig encoder type
@@ -17,7 +17,10 @@ func (v Vote) GetCSVHeaderRow() []string {
 }
 
 // GETCSVRow returns row values for the corresponding encoder type
-func (v *Vote) GETCSVRow(skipHTMLDecoding bool) []string {
+func (v *Vote) GETCSVRow() []string {
 	return []string{v.ID, v.UserID, v.PostID,
 		v.VoteTypeID, v.BountyAmount, v.CreationDate}
 }
+
+// EscapeFields update fields to the original (escaped) state.
+func (v *Vote) EscapeFields() {}

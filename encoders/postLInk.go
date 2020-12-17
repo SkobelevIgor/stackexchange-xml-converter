@@ -6,7 +6,7 @@ type PostLink struct {
 	RelatedPostID string `xml:"RelatedPostId,attr" json:"RelatedPostId"`
 	PostID        string `xml:"PostId,attr" json:"PostId"`
 	LinkTypeID    string `xml:"LinkTypeId,attr" json:"LinkTypeId"`
-	CreationDate  string `xml:"CreationDate,attr" json:"CreationDate"`
+	CreationDate  string `xml:"CreationDate,attr"`
 }
 
 // GetCSVHeaderRow returns CSV header for the correspondig encoder type
@@ -16,7 +16,10 @@ func (pl PostLink) GetCSVHeaderRow() []string {
 }
 
 // GETCSVRow returns row values for the corresponding encoder type
-func (pl PostLink) GETCSVRow(skipHTMLDecoding bool) []string {
+func (pl PostLink) GETCSVRow() []string {
 	return []string{pl.ID, pl.RelatedPostID, pl.PostID,
 		pl.LinkTypeID, pl.CreationDate}
 }
+
+// EscapeFields update fields to the original (escaped) state.
+func (pl *PostLink) EscapeFields() {}

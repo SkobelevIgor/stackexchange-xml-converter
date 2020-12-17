@@ -5,7 +5,7 @@ type Tag struct {
 	ID            string `xml:"Id,attr" json:"Id"`
 	ExcerptPostID string `xml:"ExcerptPostId,attr" json:"ExcerptPostId,omitempty"`
 	WikiPostID    string `xml:"WikiPostId,attr" json:"WikiPostId,omitempty"`
-	TagName       string `xml:"TagName,attr" json:"TagName"`
+	TagName       string `xml:"TagName,attr"`
 	Count         string `xml:"Count,attr" json:"Count,omitempty"`
 }
 
@@ -15,6 +15,9 @@ func (t Tag) GetCSVHeaderRow() []string {
 }
 
 // GETCSVRow returns row values for the corresponding encoder type
-func (t *Tag) GETCSVRow(skipHTMLDecoding bool) []string {
+func (t *Tag) GETCSVRow() []string {
 	return []string{t.ID, t.ExcerptPostID, t.WikiPostID, t.TagName, t.Count}
 }
+
+// EscapeFields update fields to the original (escaped) state.
+func (t *Tag) EscapeFields() {}

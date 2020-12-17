@@ -12,7 +12,10 @@ type Encoder interface {
 	// GETCSVRow returns row values for the corresponding encoder type
 	// WARNING! Order is crucial!
 	// Values will be written to the CSV file in the same order this function returns them.
-	GETCSVRow(skipHTMLDecoding bool) []string
+	GETCSVRow() []string
+
+	// EscapeFields update fields to the original (escaped) state.
+	EscapeFields()
 }
 
 // NewEncoder returns a pointer to the new encoder according to requested type
