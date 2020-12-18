@@ -23,7 +23,7 @@ func convertToJSON(typeName string, xmlFile *os.File, jsonFile *os.File, cfg Con
 
 	var iErr error
 	for iterator.Next() {
-		if total > 0 {
+		if total > 0 && iErr == nil {
 			w.WriteByte(',')
 		}
 		total++
@@ -52,6 +52,7 @@ func convertToJSON(typeName string, xmlFile *os.File, jsonFile *os.File, cfg Con
 
 		converted++
 	}
+
 	w.WriteByte(']')
 
 	return
