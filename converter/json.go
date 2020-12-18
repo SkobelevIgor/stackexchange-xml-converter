@@ -2,6 +2,7 @@ package converter
 
 import (
 	"bufio"
+	"bytes"
 	"encoding/json"
 	"log"
 	"os"
@@ -15,7 +16,6 @@ const WriteBufferSize = 8388608
 func convertToJSON(typeName string, xmlFile *os.File, jsonFile *os.File, cfg Config) (total int64, converted int64, err error) {
 
 	iterator := NewIterator(xmlFile)
-
 	w := bufio.NewWriterSize(jsonFile, WriteBufferSize)
 	defer w.Flush()
 
@@ -24,6 +24,7 @@ func convertToJSON(typeName string, xmlFile *os.File, jsonFile *os.File, cfg Con
 	var iErr error
 	for iterator.Next() {
 		if total > 0 && iErr == nil {
+			w.WriteByte('\n')
 			w.WriteByte(',')
 		}
 		total++
@@ -38,7 +39,7 @@ func convertToJSON(typeName string, xmlFile *os.File, jsonFile *os.File, cfg Con
 			encoder.EscapeFields()
 		}
 
-		ji, iErr := json.Marshal(encoder)
+		ji, iErr := marshal(&encoder)
 		if iErr != nil {
 			log.Printf("[%s] Error: %s", typeName, iErr)
 			continue
@@ -56,4 +57,12 @@ func convertToJSON(typeName string, xmlFile *os.File, jsonFile *os.File, cfg Con
 	w.WriteByte(']')
 
 	return
+}
+
+func marshal(enc *encoders.Encoder) ([]byte, error) {
+	b := &bytes.Buffer{}
+	jsonEncoder := json.NewEncoder(b)
+	jsonEncoder.SetEscapeHTML(false)
+	err := jsonEncoder.Encode(enc)
+	return b.Bytes(), err
 }
