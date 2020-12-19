@@ -1,6 +1,6 @@
 # stackexchange-xml-converter
 
-CLI tool that allows you to convert [Stack Exchange data dumps](https://archive.org/download/stackexchange) from `XML` to `CSV` or `JSON` formats, which is more suitable for importing to the different databases.
+CLI tool allows you to convert [Stack Exchange data dumps](https://archive.org/download/stackexchange) from `XML` to `CSV` or `JSON` formats, what is more suitable for importing to the different databases.
 
 Table of contents
 =================
@@ -10,13 +10,13 @@ Table of contents
 * [Getting started](#getting-started)
     * [Download database dump](#download-database-dump)
     * [Extract](#extract)
-    * [Building of stackexchange-xml-converter](#building-of-stackexchange-xml-converter)
+    * [Build the stackexchange-xml-converter](#build-the-stackexchange-xml-converter)
     * [XML to CSV converting](#xml-to-csv-converting)
 * [License](#license)
 
 RDBMS schema examples
 =====================
-Here you can find examples of the schema for the different databases:
+Here you can find the examples of the schema for the different databases:
 
 * [PostgreSQL](./schema_example/postgresql_ddl.sql)
 * [MySQL](./schema_example/mysql_ddl.sql)
@@ -55,8 +55,7 @@ $ ls xml/
 Badges.xml  Comments.xml  PostHistory.xml  PostLinks.xml  Posts.xml  Tags.xml  Users.xml  Votes.xml
 ```
 
-### Building of stackexchange-xml-converter
-
+### Build the stackexchange-xml-converter
 
 Clone & build `
 stackexchange-xml-converter` converter:
@@ -72,7 +71,7 @@ $ go build
 
 Now you have the `stackexchange-xml-converter` executable file. Let’s convert XML files to the CSV format:
 ```
-./stackexchange-xml-converter --result-format=csv -—source-path=../xml --store-to-dir=../csv
+./stackexchange-xml-converter -result-format=csv -source-path=../xml -store-to-dir=../csv
 ```
 #### List of possible flags:
 
