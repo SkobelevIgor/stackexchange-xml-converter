@@ -1,6 +1,6 @@
 # stackexchange-xml-converter
 
-CLI tool allows you to convert [Stack Exchange data dumps](https://archive.org/download/stackexchange) from `XML` to `CSV` or `JSON` formats, what is more suitable for importing to the different databases.
+CLI tool that allows you to convert [Stack Exchange data dumps](https://archive.org/download/stackexchange) from `XML` to `CSV` or `JSON` formats, which is more suitable for importing to the different databases.
 
 Table of contents
 =================
