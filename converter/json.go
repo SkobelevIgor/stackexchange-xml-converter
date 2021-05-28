@@ -4,27 +4,31 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/json"
+	"github.com/SkobelevIgor/stackexchange-xml-converter/encoders"
 	"log"
 	"os"
-
-	"github.com/SkobelevIgor/stackexchange-xml-converter/encoders"
+	"regexp"
+	"strings"
 )
 
 // WriteBufferSize bytes (8MB)
 const WriteBufferSize = 8388608
 
-func convertToJSON(typeName string, xmlFile *os.File, jsonFile *os.File, cfg Config) (total int64, converted int64, err error) {
-
+func convertToJSON(typeName string, xmlFile *os.File, jsonFile *os.File, cfg Config, tags []string, oneLine bool) (total int64, converted int64, err error) {
 	iterator := NewIterator(xmlFile)
+	log.Printf(jsonFile.Name())
 	w := bufio.NewWriterSize(jsonFile, WriteBufferSize)
 	defer w.Flush()
-
-	w.WriteByte('[')
-
+	if oneLine == false {
+		log.Printf("oneline not set")
+		w.WriteByte('[')
+	}
 	var iErr error
 	for iterator.Next() {
 		if total > 0 && iErr == nil {
-			w.WriteByte(',')
+			if oneLine == false {
+				w.WriteByte(',')
+			}
 		}
 		total++
 		encoder, _ := encoders.NewEncoder(typeName)
@@ -33,28 +37,41 @@ func convertToJSON(typeName string, xmlFile *os.File, jsonFile *os.File, cfg Con
 			log.Printf("[%s] Error: %s", typeName, iErr)
 			continue
 		}
-
 		if cfg.SkipHTMLDecoding {
 			encoder.EscapeFields()
 		}
-
 		ji, iErr := marshal(&encoder)
 		if iErr != nil {
 			log.Printf("[%s] Error: %s", typeName, iErr)
 			continue
 		}
 
-		_, iErr = w.Write(ji)
-		if iErr != nil {
-			log.Printf("[%s] Error: %s", typeName, iErr)
-			continue
+		// We might want to exclude this post
+		// if we filter for tags this needs to be initialized with false
+		var ignorePost bool
+		ignorePost = len(tags) > 0
+		if ignorePost {
+			// Look for tags in post
+			re := regexp.MustCompile(`"Tags":"(<.+>)+"`)
+			tagsVar := re.FindString(string(ji))
+			// check if we the post is tagged with a label we are intested in
+			for i := 0; i < len(tags) && ignorePost; i++ {
+				ignorePost = !(strings.Contains(tagsVar, "<" + tags[i] + ">"))
+			}
 		}
-
+		if !(ignorePost) {
+			// log.Printf("test: %s", string(ji))
+			_, iErr = w.Write(ji)
+			if iErr != nil {
+				log.Printf("[%s] Error: %s", typeName, iErr)
+				continue
+			}
+		}
 		converted++
 	}
-
-	w.WriteByte(']')
-
+	if oneLine == false {
+		w.WriteByte(']')
+	}
 	return
 }
 
