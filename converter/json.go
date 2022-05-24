@@ -14,15 +14,10 @@ import (
 // WriteBufferSize bytes (8MB)
 const WriteBufferSize = 8388608
 
-func convertToJSON(typeName string, xmlFile *os.File, jsonFile *os.File, cfg Config, tags []string, oneLine bool) (total int64, converted int64, err error) {
+func convertToJSON(typeName string, xmlFile *os.File, jsonFile *os.File, cfg Config, tags []string, oneLine bool, filterExactMatch bool) (total int64, converted int64, err error) {
 	iterator := NewIterator(xmlFile)
-	log.Printf(jsonFile.Name())
 	w := bufio.NewWriterSize(jsonFile, WriteBufferSize)
 	defer w.Flush()
-	if oneLine == false {
-		log.Printf("oneline not set")
-		w.WriteByte('[')
-	}
 	var iErr error
 	for iterator.Next() {
 		if total > 0 && iErr == nil {
@@ -56,7 +51,11 @@ func convertToJSON(typeName string, xmlFile *os.File, jsonFile *os.File, cfg Con
 			tagsVar := re.FindString(string(ji))
 			// check if we the post is tagged with a label we are intested in
 			for i := 0; i < len(tags) && ignorePost; i++ {
-				ignorePost = !(strings.Contains(tagsVar, "<" + tags[i] + ">"))
+				if filterExactMatch {
+					ignorePost = !(strings.Contains(tagsVar, "<" + tags[i] + ">"))
+				} else {
+					ignorePost = !(strings.Contains(tagsVar, tags[i]))
+				}
 			}
 		}
 		if !(ignorePost) {

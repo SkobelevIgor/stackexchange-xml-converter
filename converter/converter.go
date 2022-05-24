@@ -20,6 +20,7 @@ type Config struct {
 	StoreToDir       string
 	SkipHTMLDecoding bool
 	FilterByTagId    string
+	FilterExactMatch bool
 	JsonOneLine      bool
 }
 
@@ -108,6 +109,9 @@ func Convert(cfg Config) (err error) {
 		tags = strings.Fields(cfg.FilterByTagId)
 		log.Printf("Filter tags containing: %s", tags)
 	}
+	if !(cfg.FilterExactMatch) {
+		log.Printf("Filter tags have to match exactly")
+	}
 	if !(cfg.JsonOneLine) {
 		log.Printf("Write one json obj per line instead of array")
 	}
@@ -121,7 +125,7 @@ func Convert(cfg Config) (err error) {
 			fmt.Sprintf("%s.%s", typeName, cfg.ResultFormat))
 		wg.Add(1)
 		log.Printf("[%s] Converting is started", typeName)
-		go convertXMLFile(&wg, typeName, sf, resultFile, tags, cfg.JsonOneLine)
+		go convertXMLFile(&wg, typeName, sf, resultFile, tags, cfg.JsonOneLine, !(cfg.FilterExactMatch))
 	}
 
 	wg.Wait()
@@ -129,7 +133,7 @@ func Convert(cfg Config) (err error) {
 	return
 }
 
-func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, resultFilePath string, tags []string, jsonOneline bool) {
+func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, resultFilePath string, tags []string, jsonOneline bool, filterExactMatch bool) {
 	xmlFile, err := os.Open(xmlFilePath)
 	if err != nil {
 		log.Printf("[%s] Error: %s", typeName, err)
@@ -153,7 +157,7 @@ func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, res
 		}
 		total, converted, err = convertToCSV(typeName, xmlFile, resultFile, converterConfig)
 	case "json":
-		total, converted, err = convertToJSON(typeName, xmlFile, resultFile, converterConfig, tags, jsonOneline)
+		total, converted, err = convertToJSON(typeName, xmlFile, resultFile, converterConfig, tags, jsonOneline, filterExactMatch)
 	}
 
 	if err != nil {
