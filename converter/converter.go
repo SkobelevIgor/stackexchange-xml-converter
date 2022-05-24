@@ -19,6 +19,9 @@ type Config struct {
 	SourcePath       string
 	StoreToDir       string
 	SkipHTMLDecoding bool
+	FilterByTagId    string
+	FilterExactMatch bool
+	JsonOneLine      bool
 }
 
 const (
@@ -101,7 +104,17 @@ func Convert(cfg Config) (err error) {
 	} else {
 		cfg.StoreToDir = sourcePathResolved
 	}
-
+	var tags []string
+	if cfg.FilterByTagId != "" {
+		tags = strings.Fields(cfg.FilterByTagId)
+		log.Printf("Filter tags containing: %s", tags)
+	}
+	if !(cfg.FilterExactMatch) {
+		log.Printf("Filter tags have to match exactly")
+	}
+	if !(cfg.JsonOneLine) {
+		log.Printf("Write one json obj per line instead of array")
+	}
 	log.Printf("Total %d file(s) to convert", len(sourceFiles))
 
 	var wg sync.WaitGroup
@@ -112,7 +125,7 @@ func Convert(cfg Config) (err error) {
 			fmt.Sprintf("%s.%s", typeName, cfg.ResultFormat))
 		wg.Add(1)
 		log.Printf("[%s] Converting is started", typeName)
-		go convertXMLFile(&wg, typeName, sf, resultFile)
+		go convertXMLFile(&wg, typeName, sf, resultFile, tags, cfg.JsonOneLine, !(cfg.FilterExactMatch))
 	}
 
 	wg.Wait()
@@ -120,7 +133,7 @@ func Convert(cfg Config) (err error) {
 	return
 }
 
-func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, resultFilePath string) {
+func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, resultFilePath string, tags []string, jsonOneline bool, filterExactMatch bool) {
 	xmlFile, err := os.Open(xmlFilePath)
 	if err != nil {
 		log.Printf("[%s] Error: %s", typeName, err)
@@ -138,9 +151,13 @@ func convertXMLFile(wg *sync.WaitGroup, typeName string, xmlFilePath string, res
 	var total, converted int64
 	switch converterConfig.ResultFormat {
 	case "csv":
+		if len(tags) != 0 {
+			log.Printf("Tag filter for csv not supported")
+			return
+		}
 		total, converted, err = convertToCSV(typeName, xmlFile, resultFile, converterConfig)
 	case "json":
-		total, converted, err = convertToJSON(typeName, xmlFile, resultFile, converterConfig)
+		total, converted, err = convertToJSON(typeName, xmlFile, resultFile, converterConfig, tags, jsonOneline, filterExactMatch)
 	}
 
 	if err != nil {
